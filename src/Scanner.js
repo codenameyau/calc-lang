@@ -39,16 +39,16 @@ class Scanner {
 
   _analyzeToken(char) {
     this._matchNumber(char) ? this._handleNumber(char) :
-      this._matchDecimalPoint(char) ? this._handleDecimalPoint(char) :
-        this._matchPlus(char) ? this._handleOperator(char, 'TK_PLUS') :
-          this._matchMinus(char) ? this._handleOperator(char, 'TK_MINUS') :
-            this._matchMultiply(char) ? this._handleOperator(char, 'TK_MULTIPLY') :
-              this._matchDivide(char) ? this._handleOperator(char, 'TK_DIVIDE') :
-                this._matchModulo(char) ? this._handleOperator(char, 'TK_MOD') :
-                  this._matchPower(char) ? this._handleOperator(char, 'TK_POWER') :
-                    this._matchOpenParenthesis(char) ? this._handleOperator(char, 'TK_OPEN_PAREN') :
-                      this._matchCloseParenthesis(char) ? this._handleOperator(char, 'TK_CLOSE_PAREN') :
-                        this._handleOther(char);
+    this._matchDecimalPoint(char) ? this._handleDecimalPoint(char) :
+    this._matchPlus(char) ? this._handleOperator(char, 'TK_PLUS') :
+    this._matchMinus(char) ? this._handleOperator(char, 'TK_MINUS') :
+    this._matchMultiply(char) ? this._handleOperator(char, 'TK_MULTIPLY') :
+    this._matchDivide(char) ? this._handleOperator(char, 'TK_DIVIDE') :
+    this._matchModulo(char) ? this._handleOperator(char, 'TK_MOD') :
+    this._matchPower(char) ? this._handleOperator(char, 'TK_POWER') :
+    this._matchOpenParenthesis(char) ? this._handleOperator(char, 'TK_OPEN_PAREN') :
+    this._matchCloseParenthesis(char) ? this._handleOperator(char, 'TK_CLOSE_PAREN') :
+    this._handleOther(char);
   }
 
   _matchNumber(char) {

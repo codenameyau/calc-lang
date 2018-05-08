@@ -81,8 +81,12 @@ class Parser {
       this._matchToken(operator.type);
       this._term();
 
-      operator.type === 'TK_PLUS' && this._generateInstruction(operator, 'OP_ADD');
-      operator.type === 'TK_MINUS' && this._generateInstruction(operator, 'OP_SUBTRACT');
+      switch (operator.type) {
+        case 'TK_PLUS':
+          this._generateInstruction(operator, 'OP_ADD'); break;
+        case 'TK_MINUS':
+          this._generateInstruction(operator, 'OP_SUBTRACT'); break;
+      }
     }
   }
 
@@ -94,9 +98,14 @@ class Parser {
       this._matchToken(operator.type);
       this._factor();
 
-      operator.type === 'TK_MULTIPLY' && this._generateInstruction(operator, 'OP_MULTIPLY');
-      operator.type === 'TK_DIVIDE' && this._generateInstruction(operator, 'OP_DIVIDE');
-      operator.type === 'TK_MOD' && this._generateInstruction(operator, 'OP_MOD');
+      switch (operator.type) {
+        case 'TK_MULTIPLY':
+          this._generateInstruction(operator, 'OP_MULTIPLY'); break;
+        case 'TK_DIVIDE':
+          this._generateInstruction(operator, 'OP_DIVIDE'); break;
+        case 'TK_MOD':
+          this._generateInstruction(operator, 'OP_MOD'); break;
+      }
     }
   }
 
@@ -112,8 +121,12 @@ class Parser {
       this._matchToken(token.type);
       this._factor();
 
-      token.type === 'TK_MINUS' && this._generateInstruction(token, 'OP_NEGATIVE');
-      token.type === 'TK_NOT' && this._generateInstruction(token, 'OP_NEGATE')
+      switch (token.type) {
+        case 'TK_MINUS':
+          this._generateInstruction(token, 'OP_NEGATIVE'); break;
+        case 'TK_NOT':
+          this._generateInstruction(token, 'OP_NEGATE'); break;
+      }
     }
 
     else if (token.type === 'TK_OPEN_PAREN') {
@@ -127,7 +140,6 @@ class Parser {
     operation && token.setOperation(operation);
     this.instructions.push(token);
   }
-
 }
 
 module.exports = Parser;
