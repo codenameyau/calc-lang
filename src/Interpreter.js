@@ -11,7 +11,7 @@ const ERRORS = {
 
 class Interpreter {
 
-  constructor(text) {
+  constructor() {
     this.parser = new Parser();
     this.input = '';
     this.index = 0;
@@ -21,30 +21,30 @@ class Interpreter {
       'OP_PUSH': (instruction) => {
         this.stack.push(instruction);
       },
-      'OP_NEGATIVE': (instruction) => {
+      'OP_NEGATIVE': () => {
         let token = this.stack.pop();
         token.value = -1 * token.value;
         this.stack.push(token);
       },
-      'OP_ADD': (instruction) => {
+      'OP_ADD': () => {
         let tokenA = this.stack.pop();
         let tokenB = this.stack.pop();
         tokenA.value = tokenB.value + tokenA.value;
         this.stack.push(tokenA);
       },
-      'OP_SUBTRACT': (instruction) => {
+      'OP_SUBTRACT': () => {
         let tokenA = this.stack.pop();
         let tokenB = this.stack.pop();
         tokenA.value = tokenB.value - tokenA.value;
         this.stack.push(tokenA);
       },
-      'OP_MULTIPLY': (instruction) => {
+      'OP_MULTIPLY': () => {
         let tokenA = this.stack.pop();
         let tokenB = this.stack.pop();
         tokenA.value = tokenB.value * tokenA.value;
         this.stack.push(tokenA);
       },
-      'OP_DIVIDE': (instruction) => {
+      'OP_DIVIDE': () => {
         let tokenA = this.stack.pop();
         let tokenB = this.stack.pop();
         tokenA.value = tokenB.value / tokenA.value;

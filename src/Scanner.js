@@ -1,7 +1,7 @@
 const Token = require('./Token').Token;
 
 class Scanner {
-  constructor(text) {
+  constructor() {
     this.tokens = [];
     this.index = 0;
     this.current_number = '';
@@ -75,12 +75,6 @@ class Scanner {
 
   _handleOperator(char, token_type) {
     this._pushNumber();
-
-    const operatorToken = {
-      value: char,
-      type: token_type
-    };
-
     this.tokens.push(new Token(char, token_type));
   }
 
