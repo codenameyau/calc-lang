@@ -11,6 +11,6 @@ npm install --save calc-lang
 const Interpreter = require('calc-lang');
 
 const interpreter = new Interpreter();
-interpreter.run('jonny what is 13 * 37?');
-interpreter.run('((1 + (2 * 3)) * 4) / 2');
+console.log(interpreter.run('jonny what is 13 * 37?'));
+console.log(interpreter.run('((1 + (2 * 3)) * 4) / 2'));
 ```
