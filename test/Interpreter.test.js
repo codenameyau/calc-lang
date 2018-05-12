@@ -81,7 +81,6 @@ describe('Interpreter', () => {
 
   it('should ignore non-sense', () => {
     expect(interpreter.run('johnny what is 13 * 37?')).toEqual((13 * 37));
-    expect(interpreter.run('johnny what is 13 (let me think..) * OH I NKOW 37?')).toEqual((13 * 37));
   });
 
 });
