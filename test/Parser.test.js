@@ -170,6 +170,74 @@ describe('Parser', () => {
     ]);
   });
 
+  it('should parse basic exponents', () => {
+    expect(parser.parse('-1 ^ 1')).toEqual([
+      { "operation": "OP_PUSH", "type": "TK_NUMBER", "value": 1 },
+      { "operation": "OP_PUSH", "type": "TK_NUMBER", "value": 1 },
+      { "operation": "OP_POWER", "type": "TK_POWER", "value": "^" },
+      { "operation": "OP_NEGATIVE", "type": "TK_MINUS", "value": "-" }
+    ]);
+
+    expect(parser.parse('0 ^ 0')).toEqual([
+      { "operation": "OP_PUSH", "type": "TK_NUMBER", "value": 0 },
+      { "operation": "OP_PUSH", "type": "TK_NUMBER", "value": 0 },
+      { "operation": "OP_POWER", "type": "TK_POWER", "value": "^" }
+    ]);
+
+    expect(parser.parse('0 ^ 1')).toEqual([
+      { "operation": "OP_PUSH", "type": "TK_NUMBER", "value": 0 },
+      { "operation": "OP_PUSH", "type": "TK_NUMBER", "value": 1 },
+      { "operation": "OP_POWER", "type": "TK_POWER", "value": "^" }
+    ]);
+
+    expect(parser.parse('1 ^ 0')).toEqual([
+      { "operation": "OP_PUSH", "type": "TK_NUMBER", "value": 1 },
+      { "operation": "OP_PUSH", "type": "TK_NUMBER", "value": 0 },
+      { "operation": "OP_POWER", "type": "TK_POWER", "value": "^" }
+    ]);
+
+    expect(parser.parse('1 ^ 1')).toEqual([
+      { "operation": "OP_PUSH", "type": "TK_NUMBER", "value": 1 },
+      { "operation": "OP_PUSH", "type": "TK_NUMBER", "value": 1 },
+      { "operation": "OP_POWER", "type": "TK_POWER", "value": "^" }
+    ]);
+
+    expect(parser.parse('1 ^ 0.5')).toEqual([
+      { "operation": "OP_PUSH", "type": "TK_NUMBER", "value": 1 },
+      { "operation": "OP_PUSH", "type": "TK_NUMBER", "value": 0.5 },
+      { "operation": "OP_POWER", "type": "TK_POWER", "value": "^" }
+    ]);
+
+    expect(parser.parse('-1 ^ 0.5')).toEqual([
+      { "operation": "OP_PUSH", "type": "TK_NUMBER", "value": 1 },
+      { "operation": "OP_PUSH", "type": "TK_NUMBER", "value": 0.5 },
+      { "operation": "OP_POWER", "type": "TK_POWER", "value": "^" },
+      { "operation": "OP_NEGATIVE", "type": "TK_MINUS", "value": "-" }
+    ]);
+
+    expect(parser.parse('2 ^ 2')).toEqual([
+      { "operation": "OP_PUSH", "type": "TK_NUMBER", "value": 2 },
+      { "operation": "OP_PUSH", "type": "TK_NUMBER", "value": 2 },
+      { "operation": "OP_POWER", "type": "TK_POWER", "value": "^" }
+    ]);
+
+    expect(parser.parse('3 * 2 ^ 2')).toEqual([
+      { "operation": "OP_PUSH", "type": "TK_NUMBER", "value": 3 },
+      { "operation": "OP_PUSH", "type": "TK_NUMBER", "value": 2 },
+      { "operation": "OP_PUSH", "type": "TK_NUMBER", "value": 2 },
+      { "operation": "OP_POWER", "type": "TK_POWER", "value": "^" },
+      { "operation": "OP_MULTIPLY", "type": "TK_MULTIPLY", "value": "*" }
+    ]);
+
+    expect(parser.parse('3 + 2 ^ 2')).toEqual([
+      { "operation": "OP_PUSH", "type": "TK_NUMBER", "value": 3 },
+      { "operation": "OP_PUSH", "type": "TK_NUMBER", "value": 2 },
+      { "operation": "OP_PUSH", "type": "TK_NUMBER", "value": 2 },
+      { "operation": "OP_POWER", "type": "TK_POWER", "value": "^" },
+      { "operation": "OP_PLUS", "type": "TK_PLUS", "value": "+" }
+    ]);
+  });
+
   it('should parse parenthesis', () => {
     expect(parser.parse('(1 + 2)')).toEqual([
       { "operation": "OP_PUSH", "type": "TK_NUMBER", "value": 1 },

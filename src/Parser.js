@@ -12,21 +12,29 @@ const ERRORS = {
 };
 
 const PRECEDENCE = {
-  LOW: {
+  EXPRESSION: {
     TK_PLUS: 1,
     TK_MINUS: 1,
   },
-  HIGH: {
+  TERM: {
     TK_MULTIPLY: 1,
     TK_DIVIDE: 1,
     TK_MOD: 1,
   },
   UNARY: {
     TK_MINUS: 1,
-    TK_NOT: 1
+    TK_NOT: 1,
+  },
+  EXPONENTIAL: {
+    TK_POWER: 1,
+  },
+  FUNCTION: {
+    TK_SIN: 1,
+    TK_COS: 1,
+    TK_TAN: 1,
   },
   LITERAL: {
-    TK_NUMBER: 1
+    TK_NUMBER: 1,
   },
 };
 
@@ -76,7 +84,7 @@ class Parser {
   _expression() {
     this._term()
 
-    while (PRECEDENCE.LOW[this.currentToken.type]) {
+    while (PRECEDENCE.EXPRESSION[this.currentToken.type]) {
       const operator = this.currentToken;
       this._matchToken(operator.type);
       this._term();
@@ -91,12 +99,12 @@ class Parser {
   }
 
   _term() {
-    this._factor();
+    this._unary();
 
-    while (PRECEDENCE.HIGH[this.currentToken.type]) {
+    while (PRECEDENCE.TERM[this.currentToken.type]) {
       const operator = this.currentToken;
       this._matchToken(operator.type);
-      this._factor();
+      this._unary();
 
       switch (operator.type) {
         case 'TK_MULTIPLY':
@@ -109,17 +117,12 @@ class Parser {
     }
   }
 
-  _factor() {
+  _unary() {
     const token = this.currentToken;
 
-    if (PRECEDENCE.LITERAL[token.type]) {
+    if (PRECEDENCE.UNARY[token.type]) {
       this._matchToken(token.type);
-      this._generateInstruction(token, 'OP_PUSH');
-    }
-
-    else if (PRECEDENCE.UNARY[token.type]) {
-      this._matchToken(token.type);
-      this._factor();
+      this._function();
 
       switch (token.type) {
         case 'TK_MINUS':
@@ -127,6 +130,24 @@ class Parser {
         case 'TK_NOT':
           this._generateInstruction(token, 'OP_NEGATE'); break;
       }
+    }
+  }
+
+  _function() {
+    const token = this.currentToken;
+    this._factor();
+
+    if (PRECEDENCE.FUNCTION[token.type]) {
+
+    }
+  }
+
+  _factor() {
+    const token = this.currentToken;
+
+    if (PRECEDENCE.LITERAL[token.type]) {
+      this._matchToken(token.type);
+      this._generateInstruction(token, 'OP_PUSH');
     }
 
     else if (token.type === 'TK_OPEN_PAREN') {
