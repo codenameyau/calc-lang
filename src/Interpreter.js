@@ -1,50 +1,56 @@
-'use strict';
+"use strict";
 
-const Parser = require('./Parser');
+const Parser = require("./Parser");
 
 const ERRORS = {
   syntaxError: {
-    code: 'syntax_error',
-    text: (value) => `Could not parse '${value}'.`
-  }
+    code: "syntax_error",
+    text: (value) => `Could not parse '${value}'.`,
+  },
 };
 
 class Interpreter {
-
   constructor() {
     this.parser = new Parser();
-    this.input = '';
+    this.input = "";
     this.index = 0;
     this.stack = [];
 
     this.handlers = {
-      'OP_PUSH': (instruction) => {
+      OP_PUSH: (instruction) => {
         this.stack.push(instruction);
       },
-      'OP_NEGATIVE': () => {
+      OP_NEGATIVE: () => {
         let token = this.stack.pop();
         token.value = -1 * token.value;
         this.stack.push(token);
       },
-      'OP_ADD': () => {
+      OP_ADD: () => {
         let tokenA = this.stack.pop();
         let tokenB = this.stack.pop();
-        tokenA.value = tokenB.value + tokenA.value;
+
+        if (Number.isInteger(tokenB.value) && Number.isInteger(tokenA.value)) {
+          tokenA.value = tokenB.value + tokenA.value;
+        } else {
+          // Handles casees such as 1.01 + 2.02 = 3.03
+          tokenA.value = Math.round((tokenB.value + tokenA.value) * 100) / 100;
+        }
+
         this.stack.push(tokenA);
       },
-      'OP_SUBTRACT': () => {
+      OP_SUBTRACT: () => {
         let tokenA = this.stack.pop();
         let tokenB = this.stack.pop();
         tokenA.value = tokenB.value - tokenA.value;
         this.stack.push(tokenA);
       },
-      'OP_MULTIPLY': () => {
+      OP_MULTIPLY: () => {
         let tokenA = this.stack.pop();
         let tokenB = this.stack.pop();
         tokenA.value = tokenB.value * tokenA.value;
         this.stack.push(tokenA);
       },
-      'OP_DIVIDE': () => {
+      OP_DIVIDE: () => {
         let tokenA = this.stack.pop();
         let tokenB = this.stack.pop();
         tokenA.value = tokenB.value / tokenA.value;
@@ -55,7 +61,7 @@ class Interpreter {
 
   reset() {
     this.parser.reset();
-    this.input = '';
+    this.input = "";
     this.index = 0;
     this.stack = [];
   }
@@ -72,7 +78,7 @@ class Interpreter {
     instructions.forEach((instruction) => {
       const handler = this.handlers[instruction.operation];
       handler && handler(instruction);
-    })
+    });
   }
 }
 

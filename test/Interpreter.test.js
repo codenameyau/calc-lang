@@ -35,6 +35,10 @@ describe('Interpreter', () => {
     expect(interpreter.run('1 + 1')).toEqual(1 + 1);
   });
 
+  it('should handle rounding', () => {
+    expect(interpreter.run('1.01 + 2.02')).toEqual(3.03);
+  });
+
   it('should run basic subtraction', () => {
     expect(interpreter.run('-1 - -1')).toEqual(-1 - -1);
     expect(interpreter.run('-1 - 1')).toEqual(-1 - 1);
