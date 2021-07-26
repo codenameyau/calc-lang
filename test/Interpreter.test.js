@@ -37,6 +37,9 @@ describe('Interpreter', () => {
 
   it('should handle rounding', () => {
     expect(interpreter.run('1.01 + 2.02')).toEqual(3.03);
+    expect(interpreter.run('2.02 - 1.01')).toEqual(1.01);
+    expect(interpreter.run('1.01 * 2.02')).toEqual(2.0402);
+    expect(interpreter.run('2.02 / 1.01')).toEqual(2);
   });
 
   it('should run basic subtraction', () => {
